@@ -92,6 +92,8 @@ function handleForm(e) {
     }
 }
 
+inputBill.addEventListener('input', handleClick);
+inputNumPerson.addEventListener('input', handleClick);
 buttons.forEach(btn => {
     btn.addEventListener('click', handleClick);
 });
