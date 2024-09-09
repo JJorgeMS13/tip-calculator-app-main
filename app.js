@@ -19,51 +19,44 @@ function validNumPerson(value) {
 }
 
 function handleClick(e) {
-    if (e.target.id === 'custom') {
-
-       if(e.key === 'Enter') {
-         handleForm(e);
-       }
-    } else {
     const campOcultoExistente = document.querySelector('input[name="botonSeleccionado"]');
-    if (campOcultoExistente) {
-        campOcultoExistente.remove();
-    }
+    if (e.target.id === 'custom') {
+        if (campOcultoExistente) {
+            campOcultoExistente.remove();
+        }
+        handleForm(e);
+    } else {
+        if (campOcultoExistente) {
+            campOcultoExistente.remove();
+        }
         const nuevoCampo = document.createElement('input');
         nuevoCampo.type = 'hidden';
         nuevoCampo.name = 'botonSeleccionado';
         nuevoCampo.value = this.getAttribute('value');
         
         formulario.appendChild(nuevoCampo);
-
         handleForm(e);
     }
-}
 
-function getDataBtn() {
-    buttons.forEach(btn => {
-        if (btn.id !== 'custom') {
-            btn.addEventListener('click', handleClick);
-        } else {            
-            btn.addEventListener('keydown', handleClick)
-        }
-    });
 }
-
-getDataBtn();
 
 function calcultePercentage(datos, numPerson) {
     let resultAmount = 0;
     if (datos.botonSeleccionado) {
+        console.log('button');
+        
         resultAmount = (datos.bill * (datos.botonSeleccionado / 100)) / numPerson;
     }else {
+        console.log('input');
+        
         resultAmount = (datos.bill * (datos.custom / 100)) / numPerson;
     }
     return resultAmount;
 }
 
 function handleForm(e) {
-    e.preventDefault();    
+    e.preventDefault();
+    
     const formData = new FormData(formulario);
     const datos = Object.fromEntries(formData.entries());
     const numPerson = Number(datos.numerPerson);
@@ -71,7 +64,7 @@ function handleForm(e) {
     
     const isValidNumPerson = validNumPerson(numPerson);
     const isValidBill = validNumPerson(bill);
-
+    
 
     if (isValidBill) {
         spanErrorBill.classList.add('message__error');
@@ -87,6 +80,8 @@ function handleForm(e) {
         divError.classList.add('active_error');
         spanErrorElement.textContent = isValidNumPerson;
     } else {
+        console.log(datos);
+        
         let resultAmount = calcultePercentage(datos, numPerson);
         let totalPerPerson = (datos.bill / numPerson) + resultAmount;
     
@@ -97,7 +92,10 @@ function handleForm(e) {
     }
 }
 
-
+buttons.forEach(btn => {
+    btn.addEventListener('click', handleClick);
+});
+inputCustom.addEventListener('input',handleClick);
 btnReset.addEventListener('click', () => {
     resultAmountElement.textContent = '$0.00';
     resultPersonElement.textContent = '$0.00';
@@ -109,3 +107,4 @@ btnReset.addEventListener('click', () => {
     inputNumPerson.value = '';
     inputCustom.value = '';
 });
+
