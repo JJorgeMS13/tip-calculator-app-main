@@ -18,18 +18,26 @@ function validNumPerson(value) {
     return "";
 }
 
-function handleClick(e) {    
+function handleClick(e) {
+    if (e.target.id === 'custom') {
+
+       if(e.key === 'Enter') {
+         handleForm(e);
+       }
+    } else {
     const campOcultoExistente = document.querySelector('input[name="botonSeleccionado"]');
     if (campOcultoExistente) {
         campOcultoExistente.remove();
     }
-    const nuevoCampo = document.createElement('input');
-    nuevoCampo.type = 'hidden';
-    nuevoCampo.name = 'botonSeleccionado';
-    nuevoCampo.value = this.getAttribute('value');
-    
-    formulario.appendChild(nuevoCampo);
-    handleForm(e);
+        const nuevoCampo = document.createElement('input');
+        nuevoCampo.type = 'hidden';
+        nuevoCampo.name = 'botonSeleccionado';
+        nuevoCampo.value = this.getAttribute('value');
+        
+        formulario.appendChild(nuevoCampo);
+
+        handleForm(e);
+    }
 }
 
 function getDataBtn() {
